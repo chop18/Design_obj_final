@@ -39,4 +39,23 @@ UPDATE Employee
 SET salary = salary * .1
 WHERE salary>=100000;
 
-SELECT * FROM Employee
+SELECT * FROM Employee;
+
+#Creating another table to demonstrate triggers
+CREATE TABLE if not exists Team (name VARCHAR(20) NOT NULL, location VARCHAR(10), TeamID int(10), PRIMARY KEY (name, TeamID));
+
+INSERT INTO Employee (name, location, TeamID)
+VALUES ("John Smith", "1200 Work ln", 203949); 
+
+DELETE FROM Employee
+WHERE name = "John Smith";
+
+DELIMITER $$
+CREATE TRIGGER fired
+AFTER DELETE ON
+employee FOR EACH ROW
+BEGIN
+DELETE FROM Team
+WHERE Old.name = name;
+END;
+$$
